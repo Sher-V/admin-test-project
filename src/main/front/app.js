@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import axios from "axios";
+import { Admin, Resource } from "react-admin";
+import {Files} from "./Files";
+import dataProvider from "./dataProvider";
 
 export const App = () => {
   const name = useRef("");
@@ -13,10 +16,10 @@ export const App = () => {
       });
   };
 
-  useEffect(() => {
+/*  useEffect(() => {
     axios.get("http://localhost:8080/")
         .then(response => console.log(response))
-  })
+  })*/
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -31,17 +34,8 @@ export const App = () => {
     axios.post();*/
   };
   return (
-    /*
-    <div>
-      <input type="text" ref={name} />
-      <button onClick={getGreeting}>Click me</button>
-    </div>*/
-
-    <div>
-      <form onSubmit={event => handleSubmit(event)}>
-        <input type="file" name="file" ref={file} />
-        <input type="submit" value="Upload" />
-      </form>
-    </div>
+      <Admin dataProvider={dataProvider("http://localhost:8080")}>
+        <Resource name="files" list={Files} />
+      </Admin>
   );
 };

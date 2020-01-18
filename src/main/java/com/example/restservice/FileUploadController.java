@@ -28,7 +28,7 @@ public class FileUploadController {
 
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/")
+    @GetMapping("/files")
     @ResponseBody
     public ResponseEntity<Model> listUploadedFiles(Model model) throws IOException {
 
@@ -50,9 +50,11 @@ public class FileUploadController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/")
+    @PostMapping(value = "/files", consumes = "multipart/form-data")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
+        System.out.println("Hey");
+        System.out.println(file);
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
