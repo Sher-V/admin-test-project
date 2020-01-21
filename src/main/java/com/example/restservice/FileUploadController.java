@@ -37,6 +37,7 @@ public class FileUploadController {
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
 
+        System.out.println(storageService.loadAll());
         return ResponseEntity.ok().body(model);
     }
 

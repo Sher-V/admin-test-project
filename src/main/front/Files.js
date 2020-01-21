@@ -5,18 +5,30 @@ import {
   List,
   TextField,
   ImageField,
-  FileField,
   SimpleForm,
   FileInput,
-  Create
+  Create,
+  FileField
 } from "react-admin";
+import PropTypes from "prop-types";
+
+const SomeField = ({ source, record = {} }) => {
+  const arr = record.split("/");
+  debugger;
+  return <a href={record}>{arr[arr.length - 1]}</a>;
+};
+
+SomeField.PropTypes = {
+  record: PropTypes.string
+};
 
 export const Files = props => {
   return (
     <div>
       <List {...props}>
         <Datagrid rowClick="edit">
-          <FileField source="url" title="desc" />
+          <SomeField source="files"/>
+          {/*<FileField source="files" title="desc" />*/}
         </Datagrid>
       </List>
       <Create {...props}>

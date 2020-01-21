@@ -33,7 +33,6 @@ const convertFileToBase64 = file =>
   });
 
 export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
-  debugger;
   /**
    * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
    * @param {String} resource Name of the resource to fetch, e.g. 'posts'
@@ -76,7 +75,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
 
         let formData = new FormData();
         formData.append("file", params.data.file.rawFile);
-        debugger
         axios.post('http://localhost:8080/files', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -104,11 +102,9 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         /*const data = new FormData();
                 data.append('file', JSON.stringify(params.data));
                 options.body = data;
-                debugger
                 //options.headers.set('content-type', 'multipart/form-data');
                 options.headers = new Headers({ "Content-Type": 'multipart/form-data' });*/
 
-        debugger;
         break;
       case DELETE:
         url = `${apiUrl}/${resource}/${params.id}`;
@@ -129,7 +125,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
    */
   const convertHTTPResponse = (response, type, resource, params) => {
     const { headers, json } = response;
-    debugger;
     switch (type) {
       case GET_LIST:
       case GET_MANY_REFERENCE:
