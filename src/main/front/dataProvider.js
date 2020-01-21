@@ -125,6 +125,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
    */
   const convertHTTPResponse = (response, type, resource, params) => {
     const { headers, json } = response;
+    console.log(type);
     switch (type) {
       case GET_LIST:
       case GET_MANY_REFERENCE:
@@ -133,6 +134,8 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                         "The numberOfElements property must be must be present in the Json response"
                     );
                 }*/
+        json.files = json.files.map((elem, index) => ({id: index, file: elem}))
+          // changed
         return {
           data: json.files,
           total: json.files.length

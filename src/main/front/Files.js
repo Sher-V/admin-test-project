@@ -12,22 +12,25 @@ import {
 } from "react-admin";
 import PropTypes from "prop-types";
 
-const SomeField = ({ source, record = {} }) => {
-  const arr = record.split("/");
-  debugger;
-  return <a href={record}>{arr[arr.length - 1]}</a>;
+const SomeField = ({ record, ...rest }) => {
+  const arr = record.file.split("/");
+  debugger
+  return <a href={record.file}>{arr[arr.length-1]}</a>;
 };
 
 SomeField.PropTypes = {
-  record: PropTypes.string
+  record: PropTypes.array
 };
 
 export const Files = props => {
+  debugger
   return (
     <div>
       <List {...props}>
         <Datagrid rowClick="edit">
-          <SomeField source="files"/>
+          <TextField source="id"/>
+          <SomeField/>
+          {/*<SomeField/>*/}
           {/*<FileField source="files" title="desc" />*/}
         </Datagrid>
       </List>
