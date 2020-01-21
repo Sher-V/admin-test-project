@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.example.restservice.storage.StorageFileNotFoundException;
 import com.example.restservice.storage.StorageService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,6 @@ public class FileUploadController {
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
 
-        System.out.println(storageService.loadAll());
         return ResponseEntity.ok().body(model);
     }
 
@@ -50,18 +50,15 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/files", consumes = "multipart/form-data")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-        System.out.println("Hey");
-        System.out.println(file);
+    @ResponseBody
+    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
 
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return "Good!";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

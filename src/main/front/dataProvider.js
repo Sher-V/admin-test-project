@@ -10,7 +10,7 @@ import {
   DELETE,
   DELETE_MANY
 } from "react-admin";
-import axios from 'axios';
+import axios from "axios";
 
 /**
  * Maps react-admin queries to a REST API implemented using Java Spring Boot and Swagger
@@ -72,38 +72,20 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
         break;
       case CREATE:
         url = `${apiUrl}/${resource}`;
-
         let formData = new FormData();
         formData.append("file", params.data.file.rawFile);
-        axios.post('http://localhost:8080/files', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        /*options.method = "POST";
-
-        options.headers = new Headers({
-          "Content-Type": "multipart/form-data"
-        });
-
-        const file = params.data.file;
-        Promise.resolve(convertFileToBase64(file))
-          .then(picture64 => ({
-            src: picture64,
-            title: `${file.title}`
-          }))
-          .then(transformedMyFile => options.body = {
-            data: {
-              file: transformedMyFile
-            }
-          });
-*/
-        //options.body = JSON.stringify(params.data);
-        /*const data = new FormData();
-                data.append('file', JSON.stringify(params.data));
-                options.body = data;
-                //options.headers.set('content-type', 'multipart/form-data');
-                options.headers = new Headers({ "Content-Type": 'multipart/form-data' });*/
+        axios.post("http://localhost:8080/files", formData);
+        // скорее всего fetchutils преобразовывает все в json поэтому multipart через него не переделывая его отправить не получилось
+        /* Promise.resolve(convertFileToBase64(params.data.file))
+            .then((file) => ({
+              src: file,
+              title: `${params.data.file.title}`
+            }))
+            .then((file) => {
+              options.body = file
+              options.method="POST";
+              debugger
+            });*/
 
         break;
       case DELETE:
@@ -134,8 +116,11 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                         "The numberOfElements property must be must be present in the Json response"
                     );
                 }*/
-        json.files = json.files.map((elem, index) => ({id: index, file: elem}))
-          // changed
+        json.files = json.files.map((elem, index) => ({
+          id: index,
+          file: elem
+        }));
+        // changed
         return {
           data: json.files,
           total: json.files.length

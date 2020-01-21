@@ -13,25 +13,29 @@ import {
 import PropTypes from "prop-types";
 
 const SomeField = ({ record, ...rest }) => {
-  const arr = record.file.split("/");
-  debugger
-  return <a href={record.file}>{arr[arr.length-1]}</a>;
+  let title;
+
+  if (record.file.rawFile) {
+    title = record.file.title;
+  } else {
+    const arr = record.file.split("/");
+    title = arr[arr.length - 1];
+  }
+
+  return <a href={record.file}>{title}</a>;
 };
 
-SomeField.PropTypes = {
-  record: PropTypes.array
+SomeField.propTypes = {
+  record: PropTypes.object
 };
 
 export const Files = props => {
-  debugger
   return (
     <div>
       <List {...props}>
         <Datagrid rowClick="edit">
-          <TextField source="id"/>
-          <SomeField/>
-          {/*<SomeField/>*/}
-          {/*<FileField source="files" title="desc" />*/}
+          <TextField source="id" />
+          <SomeField />
         </Datagrid>
       </List>
       <Create {...props}>
