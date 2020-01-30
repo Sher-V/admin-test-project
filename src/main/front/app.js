@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from "react";
 import axios from "axios";
 import { Admin, Resource } from "react-admin";
 import {Files} from "./Files";
-import dataProvider from "./dataProvider";
+import {myDataProvider} from "./myDataProvider";
+
 
 export const App = () => {
   return (
-      <Admin dataProvider={dataProvider("http://localhost:8080")}>
+      <Admin dataProvider={myDataProvider}>
         <Resource name="files" list={Files} />
       </Admin>
   );
