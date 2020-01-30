@@ -11,23 +11,34 @@ export const myDataProvider = {
         id: index,
         file: elem
       }));
-      console.log({
-        data: files,
-        total: files.length
-      })
       return {
         data: files,
         total: files.length
       };
     });
   },
-  create: (resource, params) => {
+  create: async (resource, params) => {
     const url = `${apiUrl}/${resource}`;
     const formData = new FormData();
     formData.append("file", params.data.file.rawFile);
-    httpClient(url, {
+    await httpClient(url, {
       method: "POST",
       body: formData
-    }).then(response => ({ data: response.json }));
+    }).then(response => { return { data: response.json }});
+    return httpClient(url).then(response => {
+      const arr = response.json.files[0].split('/')
+      const ourFile = arr[arr.length-1]
+      let file = response.json.files.find(elem => {
+        const arr = elem.split('/')
+        return arr[arr.length-1] === params.data.file.rawFile.name
+      })
+      file = {
+        id: response.json.files.length - 1,
+        file: file
+      }
+      return {
+        data: file,
+      };
+    });
   }
 };

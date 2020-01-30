@@ -20,7 +20,7 @@ export const Files = props => {
           <FileField source="file" title="file" />
         </Datagrid>
       </List>
-      <Create {...props}>
+      <Create title=" SomeTitle" {...props}>
         <SimpleForm>
           <FileInput source="file" label="Related files">
             <FileField source="src" title="title" />
