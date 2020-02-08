@@ -3,10 +3,17 @@ import { fetchUtils } from "react-admin";
 const apiUrl = "http://localhost:8080";
 const httpClient = fetchUtils.fetchJson;
 
+const options = {};
+const token = localStorage.getItem('token');
+options.headers = new Headers({ 'Authorization': `Bearer ${token}` });
+
 export const myDataProvider = {
   getList: (resource, params) => {
     const url = `${apiUrl}/${resource}`;
-    return httpClient(url).then(response => {
+
+
+    //options.headers.set('Authorization', `Bearer ${token}`);
+    return httpClient(url, options).then(response => {
       const files = response.json.files.map((elem, index) => ({
         id: index,
         file: elem
@@ -21,11 +28,10 @@ export const myDataProvider = {
     const url = `${apiUrl}/${resource}`;
     const formData = new FormData();
     formData.append("file", params.data.file.rawFile);
-    await httpClient(url, {
-      method: "POST",
-      body: formData
-    }).then(response => { return { data: response.json }});
-    return httpClient(url).then(response => {
+    options.body = formData;
+    options.method = "POST";
+    await httpClient(url, options).then(response => { return { data: response.json }});
+    return httpClient(url, options).then(response => {
       const arr = response.json.files[0].split('/')
       const ourFile = arr[arr.length-1]
       let file = response.json.files.find(elem => {
