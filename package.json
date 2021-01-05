@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "prop-types": "latest",
     "react": "^16.12.0",
     "react-admin": "^3.1.2",
